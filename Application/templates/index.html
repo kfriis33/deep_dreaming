@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Deep Dream</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+  </head>
+  <body>
+    <h1> A Rocket AI production.</h1>
+    <p>This isn't working yet...</p>
+
+  <form enctype="multipart/form-data" action="/request-image" method="POST">
+     <input type="hidden" name="MAX_FILE_SIZE" value="30000"/>
+     <input type="text" name="email" id="email">
+  	 <input type="file" name="submit-image" id="submit-image" accept="image/*">
+  	 <input type="submit">
+  </form>
+
+   <script src="{{ url_for('static', filename='js/lib/jquery-2.1.1.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/submit.js') }}"></script>
+  </body>
+</html>

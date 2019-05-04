@@ -1,0 +1,70 @@
+from flask import Flask, render_template, request, Response
+from flask_mail import Mail, Message
+
+from generate_dream import processImage
+import inception5h
+
+from PIL import Image
+import io
+
+import threading
+import json
+import numpy as np
+
+# loading inception model
+inception5h.maybe_download()
+model = inception5h.Inception5h()
+
+# initializing Flask application
+app = Flask(__name__)
+
+# initializing our Mail application
+mail = Mail(app)
+
+def initiate_image_processing(image, email_address):
+	# getting our resulting image(s)
+	print("initating image processing")
+	print(model)
+	results = processImage(model,image)
+	print("got results")
+	print(results)
+	processed_image = results.processed_image
+
+	print("constructing email")
+	# constructing email
+	msg = Message("Deep Dream Results",
+                  sender="from@example.com",
+                  recipients=[email_address])
+
+	msg.attach("processed_image.png", "image/png", processed_image)
+
+	print("sending email")
+	# sending email
+	mail.send(msg)
+
+
+@app.route("/")
+def main():
+    return render_template("index.html")
+
+@app.route("/request-image", methods=["POST"])
+def requestImage():
+	print("received POST request")
+
+	# getting data from the post request
+	image_file = request.files['submit-image']
+	image_bytes = image_file.read()
+	image = np.float32(Image.open(io.BytesIO(image_bytes)))
+	email = request.form.get('email', 'example@example.com')
+
+	print(image, email)
+
+	# initializing the image processing
+	processing_thread = threading.Thread(target=initiate_image_processing, args=[image, email])
+	processing_thread.start()
+
+	response = {"status": 200}
+	return Response(json.dumps(response), mimetype='applications/json')	
+
+if __name__ == "__main__":
+    app.run(debug=True)
