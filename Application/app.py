@@ -6,6 +6,7 @@ import inception5h
 
 from PIL import Image
 import io
+import os
 
 import threading
 import json
@@ -18,29 +19,43 @@ model = inception5h.Inception5h()
 # initializing Flask application
 app = Flask(__name__)
 
+# setting up our mail configuration
+mail_settings = {
+    "MAIL_SERVER": 'smtp.gmail.com',
+    "MAIL_PORT": 465,
+    "MAIL_USE_TLS": False,
+    "MAIL_USE_SSL": True,
+    "MAIL_USERNAME": 'RocketAIcs01430project@gmail.com',
+    "MAIL_PASSWORD": 'CS01430Password1!#'
+}
+
+app.config.update(mail_settings)
+
 # initializing our Mail application
 mail = Mail(app)
 
 def initiate_image_processing(image, email_address):
-	# getting our resulting image(s)
-	print("initating image processing")
-	print(model)
-	results = processImage(model,image)
-	print("got results")
-	print(results)
-	processed_image = results.processed_image
+	with app.app_context(): # throwing this into a new app context
+		# getting our resulting image(s)
+		print("initating image processing")
+		print(model)
+		results = processImage(model,image)
+		print("got results")
+		print(results)
+		processed_image = results["processed_image"]
 
-	print("constructing email")
-	# constructing email
-	msg = Message("Deep Dream Results",
-                  sender="from@example.com",
-                  recipients=[email_address])
+		print("constructing email")
+		# constructing email
+		msg = Message("Deep Dream Results",
+		              sender="RocketAIcs01430project@gmail.com",
+		              recipients=[email_address])
 
-	msg.attach("processed_image.png", "image/png", processed_image)
+		msg.attach("processed_image.png", "image/png", processed_image)
 
-	print("sending email")
-	# sending email
-	mail.send(msg)
+		print("sending email")
+		# sending email
+		mail.send(msg)
+		print("email delivered")
 
 
 @app.route("/")

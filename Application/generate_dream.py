@@ -339,8 +339,11 @@ def processImage(md, image):
 
     layer_tensor = model.layer_tensors[6]
     img_result = recursive_optimize(layer_tensor=layer_tensor, image=image,
-                 num_iterations=10, step_size=3.0, rescale_factor=0.7,
-                 num_repeats=4, blend=0.2)
+                 num_iterations=5, step_size=3.0, rescale_factor=0.7,
+                 num_repeats=2, blend=0.2)
 
-    json = {"processed_image": img_result}
+    image_result_clipped = np.clip(image/255.0, 0.0, 1.0) # clipping our image
+    img_bytes = image_result_clipped.astype(np.uint8) # converting to bytes
+
+    json = {"processed_image": img_bytes}
     return json
