@@ -7,9 +7,11 @@
   </head>
   <body>
     <h1> A Rocket AI production.</h1>
-    <p>This isn't working yet...</p>
+    <p>Enter an email adress and select an image to be "dreamified".</p>
 
-  <form enctype="multipart/form-data" action="/request-image" method="POST">
+  <iframe width="0" height="0" border="0" name="hidden-frame" id="hidden-frame"></iframe>
+
+  <form enctype="multipart/form-data" action="/request-image" target="hidden-frame" method="POST">
      <input type="hidden" name="MAX_FILE_SIZE" value="30000"/>
      <input type="text" name="email" id="email">
   	 <input type="file" name="submit-image" id="submit-image" accept="image/*">

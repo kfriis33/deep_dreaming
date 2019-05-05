@@ -80,7 +80,7 @@ def requestImage():
 	processing_thread.start()
 
 	response = {"status": 200}
-	return Response(json.dumps(response), mimetype='applications/json')	
+	return
 
 if __name__ == "__main__":
     app.run(debug=True)
