@@ -348,7 +348,7 @@ def recursive_optimize(layer_tensor, image,
 
 session = tf.InteractiveSession(graph=model.graph)
 image = load_image(filename='images/bowen.jpg')
-
+print("tensors: ", len(model.layer_tensors))
 image = image[:,:,:3]
 
 print("plotting 1")

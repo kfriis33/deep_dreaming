@@ -329,7 +329,7 @@ def recursive_optimize(layer_tensor, image,
     return img_result
 
 
-def processImage(md, image, email):
+def processImage(md, image, email, optimization_layer, num_iterations, num_repetitions, blend):
     global model, session
 
     model = md
@@ -337,10 +337,10 @@ def processImage(md, image, email):
 
     image = image[:,:,:3]
 
-    layer_tensor = model.layer_tensors[6]
+    layer_tensor = model.layer_tensors[optimization_layer]
     img_result = recursive_optimize(layer_tensor=layer_tensor, image=image,
-                 num_iterations=5, step_size=3.0, rescale_factor=0.7,
-                 num_repeats=2, blend=0.2)
+                 num_iterations=num_iterations, step_size=3.0, rescale_factor=0.7,
+                 num_repeats= num_repetitions, blend=blend)
 
     image_path = email + "processed"
     save_image(img_result, image_path)

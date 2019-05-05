@@ -6,16 +6,59 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
   </head>
   <body>
-    <h1> A Rocket AI production.</h1>
+    <h1> Deep Dream </h1>
+    <h2> A Rocket AI production.</h2>
     <p>Enter an email adress and select an image to be "dreamified".</p>
 
   <iframe width="0" height="0" border="0" name="hidden-frame" id="hidden-frame"></iframe>
 
   <form enctype="multipart/form-data" action="/request-image" target="hidden-frame" method="POST">
      <input type="hidden" name="MAX_FILE_SIZE" value="30000"/>
-     <input type="text" name="email" id="email">
-  	 <input type="file" name="submit-image" id="submit-image" accept="image/*">
-  	 <input type="submit">
+     Email: <input type="email" name="email" id="email"> <br>
+     Image: <input type="file" name="submit-image" id="submit-image" accept="image/*"> <br>
+     Layer to Optimize Over:
+     <select name="optimization-layer">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6" selected="selected">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+    </select> <br>
+     Number of Iterations:
+     <select name="num-iterations">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10" selected="selected">10</option>
+    </select> <br>
+    Number of Repetitions:
+     <select name="num-repetitions">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4" selected="selected">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+    </select> <br>
+    Blend (scalar from 0 to 1): <input type="number" name="blend" min="0" max="1" value="0.20" step="0.01"> <br> 
+     <input type="submit" onclick="indicate_success()">
   </form>
 
    <script src="{{ url_for('static', filename='js/lib/jquery-2.1.1.js') }}"></script>

@@ -7,3 +7,8 @@ $("#request-image").submit(function(e) {
         console.log(response)
     });
 });
+
+
+function indicate_success() {
+	alert("We will email you the resulting image shortly!")
+}
