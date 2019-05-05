@@ -39,10 +39,10 @@ def initiate_image_processing(image, email_address):
 		# getting our resulting image(s)
 		print("initating image processing")
 		print(model)
-		results = processImage(model,image)
+		results = processImage(model,image, email_address)
 		print("got results")
 		print(results)
-		processed_image = results["processed_image"]
+		image_path = results["image_path"]
 
 		print("constructing email")
 		# constructing email
@@ -50,7 +50,8 @@ def initiate_image_processing(image, email_address):
 		              sender="RocketAIcs01430project@gmail.com",
 		              recipients=[email_address])
 
-		msg.attach("processed_image.png", "image/png", processed_image)
+		with app.open_resource(image_path) as fp:
+			msg.attach("processed_image.png", "image/png", fp.read())
 
 		print("sending email")
 		# sending email

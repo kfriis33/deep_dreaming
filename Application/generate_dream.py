@@ -329,7 +329,7 @@ def recursive_optimize(layer_tensor, image,
     return img_result
 
 
-def processImage(md, image):
+def processImage(md, image, email):
     global model, session
 
     model = md
@@ -342,8 +342,8 @@ def processImage(md, image):
                  num_iterations=5, step_size=3.0, rescale_factor=0.7,
                  num_repeats=2, blend=0.2)
 
-    image_result_clipped = np.clip(image/255.0, 0.0, 1.0) # clipping our image
-    img_bytes = image_result_clipped.astype(np.uint8) # converting to bytes
+    image_path = email + "processed"
+    save_image(img_result, image_path)
 
-    json = {"processed_image": img_bytes}
+    json = {"image_path": image_path}
     return json
