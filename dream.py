@@ -10,19 +10,21 @@ import math
 import PIL.Image
 from scipy.ndimage.filters import gaussian_filter
 import inception5h
+import cv2
 
+
+import imageio
 
 
 inception5h.maybe_download()
-#IPython.display.maybe_download()
 
-#from IPython.display import Image, display
 
 model = inception5h.Inception5h()
 
 
 print("done")
 
+gifimgs=[]
 
 def load_image(filename):
     image = PIL.Image.open(filename)
@@ -49,9 +51,10 @@ def plot_image(image):
         # Convert the pixel-values to the range between 0.0 and 1.0
         image = np.clip(image/255.0, 0.0, 1.0)
 
-        # Plot using matplotlib.
+        image = cv2.resize(image, (width, height))
         plt.imshow(image, interpolation='lanczos')
         plt.show()
+        gifimgs.append(image)
     else:
         # Ensure the pixel-values are between 0 and 255.
         image = np.clip(image, 0.0, 255.0)
@@ -349,6 +352,9 @@ def recursive_optimize(layer_tensor, image,
 session = tf.InteractiveSession(graph=model.graph)
 image = load_image(filename='images/bowen.jpg')
 print("tensors: ", len(model.layer_tensors))
+
+height = image.shape[0]
+width= image.shape[1]
 image = image[:,:,:3]
 
 print("plotting 1")
@@ -381,3 +387,10 @@ else:
                  num_repeats=4, blend=0.2)
     print("final")
     plot_image(img_result)
+
+gifimgs.pop(0)
+for i in range(len(gifimgs)-1, -1, -1):
+    gifimgs.append(gifimgs[i])
+
+imageio.mimsave('./mov.gif', gifimgs)
+print('saved gif')
