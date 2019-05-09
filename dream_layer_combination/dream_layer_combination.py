@@ -208,6 +208,7 @@ def optimize_image(layer_tensors, layer_weights, image,
                    show_gradient=False):
   
     img = image.copy()
+    original_img = img.copy()
 
 
  
@@ -220,7 +221,7 @@ def optimize_image(layer_tensors, layer_weights, image,
         grads = []
         for index in range(len(gradients)):
             gradient = gradients[index]
-            grad = tiled_gradient(gradient=gradient, image=img, tile_size=tile_size)
+            grad = tiled_gradient(gradient=gradient, image=original_img, tile_size=tile_size)
             sigma = (i * 4.0) / num_iterations + 0.5
             grad_smooth1 = gaussian_filter(grad, sigma=sigma)
             grad_smooth2 = gaussian_filter(grad, sigma=sigma*2)
@@ -284,7 +285,7 @@ print("plotting 1")
 plot_image(image)
 
 layer_tensors = [model.layer_tensors[2], model.layer_tensors[10]]
-img_result = recursive_optimize(layer_tensors=layer_tensors, layer_weights=[0.7,0.7], image=image,
+img_result = recursive_optimize(layer_tensors=layer_tensors, layer_weights=[0.7,0.3], image=image,
              num_iterations=10, step_size=3.0, rescale_factor=0.7,
              num_repeats=6, blend=0.2)
 print("final")
