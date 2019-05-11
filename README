@@ -5,3 +5,9 @@ inception – Inception image classification model that we use for Deep Dream.
 dream_layer_combination – Contains files related to our modified implementation of deep_dream where we optimize over multiple layers of our neural network rather than just one.
 base_implementation – Contains the base implementation of deep dream based off of the cited tutorial. Includes a modification where we create gifs from the results.
 mov.gif – Example gif result.
+
+Notes on Running Application:
+	- You must install Flask and Flask-Mail (which can be done using pip)
+	- You can run the webserver once inside the Application directory by runnning: 'export FLASK_APP=app.py && flask run'
+	- If you are hosting locally, you can access the client at http://localhost:5000 when using the default settings.
+
